@@ -19,13 +19,28 @@ use Psr\Log\LogLevel;
  */
 class Logger implements LoggerInterface
 {
+    const COLLOR_YELLOW = "\033[1;33m";
+    const COLLOR_GREEN = "\033[1;32m";
+    const COLLOR_CYAN = "\033[1;36m";
+    const COLLOR_BLUE = "\033[1;34m";
+    const COLLOR_MAGENTA = "\033[1;35m";
+    const COLLOR_RED = "\033[1;31m";
+    const COLLOR_NORMAL = "\033[0;39m";
+
     use LoggerTrait;
+
+    private static $types_cnt = [];
 
     /** @inheritdoc */
     public function log($level, $message, array $context = array())
     {
+        if (!isset(self::$types_cnt[$level])) {
+            self::$types_cnt[$level] = 1;
+        }
         $color = self::getCollorByLevel($level);
-        echo date('Y/m/d H:i:s') . " " . $color . $level . "\033[0;39m) " . $message . "\n";
+        $prefix = $color . $level . "\033[0;39m(" . self::$types_cnt[$level] . ")";
+        echo str_pad($prefix, 30, '.') . "" . date('Y/m/d H:i:s') . " -> " . $message . "\n";
+        self::$types_cnt[$level]++;
     }
 
     /**
@@ -37,27 +52,27 @@ class Logger implements LoggerInterface
     {
         switch ($level) {
             case LogLevel::DEBUG:
-                $color = "\033[1;33m"; //YELLOW
+                $color = self::COLLOR_YELLOW;
                 break;
             case LogLevel::INFO:
-                $color = "\033[1;32m"; //GREEN
+                $color = self::COLLOR_GREEN;
                 break;
             case LogLevel::NOTICE:
-                $color = "\033[1;36m"; //CYAN
+                $color = self::COLLOR_CYAN;
                 break;
             case LogLevel::EMERGENCY:
-                $color = "\033[1;34m"; //BLUE
+                $color = self::COLLOR_BLUE;
                 break;
             case LogLevel::WARNING:
-                $color = "\033[1;35m"; //MAGENTA
+                $color = self::COLLOR_MAGENTA;
                 break;
             case LogLevel::ALERT:
             case LogLevel::ERROR:
             case LogLevel::CRITICAL:
-                $color = "\033[1;31m"; //RED
+                $color = self::COLLOR_RED;
                 break;
             default:
-                $color = "\033[0;39m"; //NORMAL
+                $color = self::COLLOR_NORMAL;
                 break;
         }
 
