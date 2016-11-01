@@ -50,4 +50,48 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
             'Checking level counter'
         );
     }
+
+    public function testGetColorByLevel()
+    {
+        $this->assertEquals(
+            Logger::COLLOR_RED,
+            Logger::getColorByLevel(LogLevel::ALERT),
+            'Check alert color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_RED,
+            Logger::getColorByLevel(LogLevel::ERROR),
+            'Check error color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_RED,
+            Logger::getColorByLevel(LogLevel::CRITICAL),
+            'Check critical color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_MAGENTA,
+            Logger::getColorByLevel(LogLevel::WARNING),
+            'Check warning color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_BLUE,
+            Logger::getColorByLevel(LogLevel::EMERGENCY),
+            'Check emergency color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_CYAN,
+            Logger::getColorByLevel(LogLevel::NOTICE),
+            'Check notice color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_GREEN,
+            Logger::getColorByLevel(LogLevel::INFO),
+            'Check info color'
+        );
+        $this->assertEquals(
+            Logger::COLLOR_YELLOW,
+            Logger::getColorByLevel(LogLevel::DEBUG),
+            'Check debug color'
+        );
+    }
 }

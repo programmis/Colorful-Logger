@@ -37,7 +37,7 @@ class Logger implements LoggerInterface
         if (!isset(self::$types_cnt[$level])) {
             self::$types_cnt[$level] = 1;
         }
-        $color = self::getCollorByLevel($level);
+        $color = self::getColorByLevel($level);
         $prefix = $color . $level . "\033[0;39m(" . self::$types_cnt[$level] . ")";
         echo str_pad($prefix, 30, '.') . "[" . date('Y/m/d H:i:s') . "] -> " . $message . "\n";
         self::$types_cnt[$level]++;
@@ -48,7 +48,7 @@ class Logger implements LoggerInterface
      *
      * @return string
      */
-    public static function getCollorByLevel($level)
+    public static function getColorByLevel($level)
     {
         switch ($level) {
             case LogLevel::DEBUG:
