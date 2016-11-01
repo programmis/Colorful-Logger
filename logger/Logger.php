@@ -39,7 +39,7 @@ class Logger implements LoggerInterface
         }
         $color = self::getCollorByLevel($level);
         $prefix = $color . $level . "\033[0;39m(" . self::$types_cnt[$level] . ")";
-        echo str_pad($prefix, 30, '.') . "" . date('Y/m/d H:i:s') . " -> " . $message . "\n";
+        echo str_pad($prefix, 30, '.') . "[" . date('Y/m/d H:i:s') . "] -> " . $message . "\n";
         self::$types_cnt[$level]++;
     }
 
