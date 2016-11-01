@@ -1,3 +1,5 @@
+![alt tag](https://travis-ci.org/programmis/Colorful-Logger.svg?branch=master)
+
 **Installing**
 
 _1) Download composer:_
