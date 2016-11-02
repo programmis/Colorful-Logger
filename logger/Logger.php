@@ -34,13 +34,32 @@ class Logger implements LoggerInterface
     /** @inheritdoc */
     public function log($level, $message, array $context = array())
     {
+        return self::createString($level, $message, true);
+    }
+
+    /**
+     * Create and return log string
+     *
+     * @param string $level
+     * @param string $message
+     * @param bool   $colorful
+     *
+     * @return string
+     */
+    public static function createString($level, $message, $colorful = false)
+    {
         if (!isset(self::$types_cnt[$level])) {
             self::$types_cnt[$level] = 1;
         }
-        $color = self::getColorByLevel($level);
-        $prefix = $color . $level . "\033[0;39m(" . self::$types_cnt[$level] . ")";
-        echo str_pad($prefix, 30, '.') . "[" . date('Y/m/d H:i:s') . "] -> " . $message . "\n";
+        if ($colorful) {
+            $color  = self::getColorByLevel($level);
+            $prefix = $color . $level . "\033[0;39m(" . self::$types_cnt[$level] . ")";
+        } else {
+            $prefix = $level . "(" . self::$types_cnt[$level] . ")";
+        }
         self::$types_cnt[$level]++;
+
+        return str_pad($prefix, 30, '.') . "[" . date('Y/m/d H:i:s') . "] -> " . $message . "\n";
     }
 
     /**
