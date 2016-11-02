@@ -17,19 +17,19 @@ use Psr\Log\LogLevel;
  */
 class LoggerTest extends \PHPUnit_Framework_TestCase
 {
+    private $test_message = 'this is test';
+
     public function testLog()
     {
-        $test_message = 'this is test';
-
         $logger = new Logger();
 
         ob_start();
-        $logger->log(LogLevel::ALERT, $test_message);
+        $logger->log(LogLevel::ALERT, $this->test_message);
         $content = ob_get_contents();
         ob_end_clean();
 
         $this->assertContains(
-            $test_message,
+            $this->test_message,
             $content,
             'Checking test message content'
         );
@@ -40,7 +40,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         );
 
         ob_start();
-        $logger->log(LogLevel::ALERT, $test_message);
+        $logger->log(LogLevel::ALERT, $this->test_message);
         $content = ob_get_contents();
         ob_end_clean();
 
@@ -48,6 +48,21 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
             Logger::COLLOR_RED . LogLevel::ALERT . Logger::COLLOR_NORMAL . '(2)',
             $content,
             'Checking level counter'
+        );
+    }
+
+    public function testCreateString()
+    {
+        $string = Logger::createString(LogLevel::ALERT, $this->test_message);
+        $this->assertStringStartsWith(
+            LogLevel::ALERT,
+            $string,
+            'Check string start with level type'
+        );
+        $this->assertContains(
+            $this->test_message,
+            $string,
+            'Check string contain text'
         );
     }
 
