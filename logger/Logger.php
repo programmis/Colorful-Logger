@@ -34,7 +34,7 @@ class Logger implements LoggerInterface
     /** @inheritdoc */
     public function log($level, $message, array $context = array())
     {
-        return self::createString($level, $message, true);
+        echo self::createString($level, $message, true);
     }
 
     /**
