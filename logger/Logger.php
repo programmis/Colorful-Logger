@@ -35,6 +35,8 @@ class Logger implements LoggerInterface
     public function log($level, $message, array $context = array())
     {
         echo self::createString($level, $message, true);
+
+        self::$types_cnt[$level]++;
     }
 
     /**
@@ -51,13 +53,13 @@ class Logger implements LoggerInterface
         if (!isset(self::$types_cnt[$level])) {
             self::$types_cnt[$level] = 1;
         }
+
         if ($colorful) {
             $color  = self::getColorByLevel($level);
             $prefix = $color . $level . "\033[0;39m(" . self::$types_cnt[$level] . ")";
         } else {
             $prefix = $level . "(" . self::$types_cnt[$level] . ")";
         }
-        self::$types_cnt[$level]++;
 
         return str_pad($prefix, 30, '.') . "[" . date('Y/m/d H:i:s') . "] -> " . $message . "\n";
     }
